@@ -4,40 +4,40 @@ import '../styles/Rightmenu.css';
 import InputSection from './InputSection';
 
 const MessageSection = () => {
-    const [messages, setMessages] = useState([
-        { text: 'Hello', sender: 'other' },
-        { text: 'How are you?', sender: 'other' },
-        { text: "I'm good, thanks!", sender: 'user' }
-    ]);
+  const [messages, setMessages] = useState([
+    { text: 'Hello', sender: 'other' },
+    { text: 'How are you?', sender: 'other' },
+    { text: "I'm good, thanks!", sender: 'user' },
+  ]);
 
-    const messageEndRef = useRef(null);
+  const messageEndRef = useRef(null);
 
-    const handleSendMessage = (newMessage) => {
-        setMessages([...messages, { text: newMessage, sender: 'user' }]);
-    };
+  const handleSendMessage = (newMessage) => {
+    setMessages((prevMessages) => [...prevMessages, { text: newMessage, sender: 'user' }]);
+  };
 
-    useEffect(() => {
-        messageEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [messages]);
+  useEffect(() => {
+    messageEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
-    return (
-        <>
-            <Row className="message-section">
-                <Col>
-                    {messages.map((msg, index) => (
-                        <div 
-                            key={index} 
-                            className={`message ${msg.sender === 'user' ? 'sent' : 'other'}`}
-                        >
-                            {msg.text}
-                        </div>
-                    ))}
-                    <div ref={messageEndRef} /> {/* Scroll-to-bottom element */}
-                </Col>
-            </Row>
-            <InputSection onSendMessage={handleSendMessage} />
-        </>
-    );
+  return (
+    <>
+      <Row className="message-section">
+        <Col>
+          {messages.map((msg, index) => (
+            <div
+              key={index}
+              className={`message ${msg.sender === 'user' ? 'sent' : 'other'}`}
+            >
+              {msg.text}
+            </div>
+          ))}
+          <div ref={messageEndRef} /> {/* Scroll-to-bottom element */}
+        </Col>
+      </Row>
+      <InputSection onSendMessage={handleSendMessage} />
+    </>
+  );
 };
 
 export default MessageSection;

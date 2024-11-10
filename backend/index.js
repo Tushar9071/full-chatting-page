@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 //for use .env file
 require('dotenv').config();
 //server port number
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 8000
 //for routes
 const authenticate = require('./routes/authentication');
 //connet mongoDB
@@ -23,7 +23,12 @@ const friendList = require('./routes/friendListRoutes')
 
 //middleware
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: process.env.frontend_path, // replace with your frontend url
+    credentials: true, // enable cookies
+    methods: 'GET, POST, PUT, DELETE', // allow these methods
+    allowedHeaders: ['Content-Type', 'Authorization'] // allow these headers to be sent in the request
+}));
 app.use(express.json());
 app.use(cookieParser());
     

@@ -1,0 +1,267 @@
+/* Universal Container and Background */
+.app-bg-container {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-image: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1124&q=100');
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Glass Effect */
+.glass-container {
+    padding: 40px;
+    width: 90%;
+    max-width: 600px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(12px) saturate(200%);
+    background-color: rgba(17, 25, 40, 0.75);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.125);
+    margin: 0 auto;
+}
+
+/* Header Style */
+.auth-header {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 24px;
+    text-align: center;
+    color: #ffffff;
+    width: 100%;
+}
+
+/* Label Text */
+.auth-text {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #e5e5e5;
+    margin-bottom: 12px;
+    width: 100%;
+}
+
+/* Input Fields */
+.auth-input {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.1rem;
+    height: 55px;
+    border-radius: 8px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    outline: none;
+    transition: background-color 0.3s ease;
+     margin-bottom: 5px;
+}
+
+
+
+.auth-input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.1rem;
+}
+
+.auth-input:focus {
+    background-color: rgba(255, 255, 255, 0.35);
+}
+
+/* OTP Input */
+.otp-input-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+.otp-input {
+    width: 100%;
+    max-width: 100px;
+    height: 50px;
+    font-size: 1.6rem;
+    text-align: center;
+    border-radius: 10px;
+    border: 1px solid #fff;
+    background-color: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    outline: none;
+    transition: background-color 0.3s ease;
+}
+
+.otp-input:focus {
+    background-color: rgba(255, 255, 255, 0.35);
+    border-color: #3b82f6;
+}
+
+/* Wrapper for Input and Show Password Icon */
+.input-wrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+/* Password Toggle Button (Show/Hide Icon) */
+.show-password-btn {
+    position: absolute;
+    right: 10px;
+    top: 100%;
+    transform: translateY(-20%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #ffffff;
+    padding: 0;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    margin-bottom: 30px; 
+    width: 100%;
+}
+
+
+.input-container.with-verify {
+    display: flex;
+    align-items: end;
+    width: 100%;
+    position: relative;
+}
+
+.auth-input.email-input {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.verify-email-btn {
+    display: flex;
+    /* margin-left: auto;  */
+    height: 50px;
+    padding: 0 15px;
+    width: 25%;
+    padding: 0.5rem;
+    margin-left: 0.5rem;
+    background-color: #3b82f6;
+    color: #ffffff;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.verify-email-btn:hover {
+    background-color: #2563eb;
+}
+
+  
+  .verify-email-btn:active,
+  .verify-email-btn:focus {
+    color: white;
+    border-color: wheat;
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.35);
+  }
+  
+ 
+/* Adjusted Error Message Position */
+.error-message {
+    color: red;
+    font-size: 0.90rem;
+    position: absolute;
+    right: 10px;
+    bottom: -19px; 
+    white-space: nowrap;
+    margin: 0; 
+}
+
+
+.auth-input:invalid {
+    background-color: rgba(255, 0, 0, 0.1);
+    border-color: red;
+}
+
+/* Buttons */
+.auth-button {
+    background-color: #3b82f6;
+    color: #ffffff;
+    font-size: 1.2rem;
+    padding: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    height: 50px;
+    border: none;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+
+
+.auth-button:hover,.verify-email-btn:hover  {
+    background-color: #2563eb;
+    transform: scale(1.02);
+}
+
+.auth-button:active {
+    background-color: #1e3a8a;
+}
+
+/* Checkbox Container */
+.auth-checkbox {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    color: #ffffff;
+    margin-top: 10px;
+}
+
+.auth-checkbox input[type="checkbox"] {
+    margin-right: 10px;
+}
+/* Password Toggle Button */
+.show-password-btn {
+    position: absolute;
+    right: 25px;
+    top: calc(50% - 18px);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+/* Links and Divider */
+.auth-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    margin-top: 24px;
+    color: #ffffff;
+    width: 100%;
+}
+
+.auth-links a {
+    color: #ffffff;
+    text-decoration: underline;
+    margin: 0 10px;
+}
+
+
+.otp-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    border: none;
+    background-color: transparent;
+}

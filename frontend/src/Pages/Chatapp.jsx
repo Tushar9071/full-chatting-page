@@ -1,12 +1,13 @@
-import {React} from 'react';
+import {React,useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LeftMenu from '../Components/Leftmenu';
-import ChatDetail from '../Components/Rightmenu';
+import RightPanel from '../Components/Rightmenu';
 import '../styles/mainpage.css';
 
 
 function App() {
  
+  const [selectedFriend, setSelectedFriend] = useState(null);
 
   return (
     <div className="app-container">
@@ -14,12 +15,12 @@ function App() {
       <div className="glass-wrapper glass-effect">
         {/* Left Menu */}
         <div className="left-menu">
-          <LeftMenu />
+           <LeftMenu setSelectedFriend={setSelectedFriend} />
         </div>
 
         {/* Chat Detail */}
         <div className="chat-detail ">
-          <ChatDetail />
+        <RightPanel selectedFriend={selectedFriend} />
         </div>
       </div>
     </div>

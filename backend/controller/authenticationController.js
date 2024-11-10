@@ -13,27 +13,27 @@ const loginWithUserAndPass = async (req ,res) =>{
         const password = req.body.password;
         // verify username and email and password and authenticate user
         const data = await loginSchema.findOne({$or:[{username:username},{email:username}]});
-        let responseData = {
-            username : false,
-            password : false,
-        }
         if(data){
             const ispasswordCorrect = await bcrypt.compare(password,data.password);
             if(ispasswordCorrect){
-                responseData = {
-                    username : true,
-                    password : true,
-                }
                 generateToken(data._id,res)
+                res.json({
+                    "_id":data._id,
+                    "username":data.username,
+                    "profilepic":data.profilepic
+                })
             }
             else{
-                responseData = {
-                    username : true,
-                    password : false,
-                }
+                res.json({
+                    "error": "password is incorrect"
+                })
             }
         }
-        res.json(responseData)
+        else{
+            res.json({
+                "error": "username or email not found"
+            })
+        }
     }
     catch(e){
         console.log("error in loginwithuserAndPass",e)
@@ -44,135 +44,144 @@ const loginWithUserAndPass = async (req ,res) =>{
 const registerUser = async (req,res) => {
     try{
         const reqData = req.body;
-        let responseData = {
-            username:false,
-            email:false,
-            otp:false,
+        let data = await loginSchema.findOne({username:reqData.username})
+        if(data){
+            res.json({
+                "error": "username already exists"
+            })
+            return
         }
-        const data = await loginSchema.findOne({username:reqData.username})
-        if(!data){
-            responseData.username = true
-            const data = await loginSchema.findOne({email:reqData.email})
-            if(!data){
-            responseData.email = true
+        data = await loginSchema.findOne({email:reqData.email})
+        if(data){
+            res.json({
+                "error": "email already exists"
+            })
+            return
+        }
+        const Otpdata = await registerOtpsave.findOne({email:reqData.email});
+        if(Otpdata){
+            if(Otpdata.otp == reqData.otp){
+                //Hase password
+                const salt = await bcrypt.genSalt(10);
+                const hashedPassword = await bcrypt.hash(reqData.password, salt);
+                const boyPic = `https://avatar.iran.liara.run/public/boy?username=${reqData.username}`
+                const girlPic = `https://avatar.iran.liara.run/public/girl?username=${reqData.username}`
+                const dbSave = new loginSchema({
+                    username: reqData.username,
+                    email: reqData.email,
+                    password: hashedPassword,
+                    gender: reqData.gender,
+                    profilepic : reqData.gender == 'male' ? boyPic : girlPic 
+                });
+                generateToken(dbSave._id,res);
+                const data = await dbSave.save();
+                await registerOtpsave.deleteOne({email:reqData.email});
+                res.json({
+                    "_id":data._id,
+                    "username":data.username,
+                    "profilepic":data.profilepic
+                })
+            }
+            else{
+                res.json({
+                    "error": "Invalid OTP"
+                })
+                return
             }
         }
-        if(responseData.username && responseData.email){
-            const Otpdata = await registerOtpsave.findOne({email:reqData.email});
-            if(Otpdata){
-                if(Otpdata.otp == reqData.otp){
-                    responseData.otp = true;
-                    //Hase password
-                    const salt = await bcrypt.genSalt(10);
-                    const hashedPassword = await bcrypt.hash(reqData.password, salt);
-                    const boyPic = `https://avatar.iran.liara.run/public/boy?username=${reqData.username}`
-                    const girlPic = `https://avatar.iran.liara.run/public/girl?username=${reqData.username}`
-                    const dbSave = new loginSchema({
-                        username: reqData.username,
-                        email: reqData.email,
-                        password: hashedPassword,
-                        gender: reqData.gender,
-                        profilepic : reqData.gender == 'male' ? boyPic : girlPic 
-                    });
-                    generateToken(dbSave._id,res);
-                    const data = await dbSave.save();
-                    await registerOtpsave.deleteOne({email:reqData.email});
-                }
-                else{
-                    responseData.otp = false;
-                }
-            }
+        else{
+            res.json({
+                "error": "OTP not sent yet"
+            })
+            return
         }
-        res.status(200).json(responseData);
     }
     catch(e){
         console.log("error in registerUser File",e);
-        res.status(500).json({message: 'Internal Server Error'});
+        res.status(500).json({"message": 'Internal Server Error'});
     }
 }
 
 const otpVerification = async (req,res)=>{
     const data = req.body;
     let otp;
-    const responseData = {
-        username:false,
-        email:false,
-        otp:false
-    }
-    const user = await loginSchema.findOne({username:data.username});
-    if(!user){
-        responseData.username = true;
-        const user = await loginSchema.findOne({email:data.email});
-        if(!user){
-            responseData.email = true;
-            responseData.otp = true;
-            otp = Math.floor(1000+Math.random()*9000);
-        }
-    }
-    if(responseData.email && responseData.username){
-        await registerOtpsave.deleteOne({email:data.email});
-        const dbSave = new registerOtpsave({
-            email: data.email,
-            otp: otp
-        });
-        await dbSave.save();
-        let config = {
-            service :'gmail',
-            auth:{
-                user: process.env.send_email,
-                pass: process.env.send_email_password,
-            }
-        }
-    
-        let transporter = nodemailer.createTransport(config);
-    
-        let MailGenerator = new Mailgen({
-            theme: 'default',
-            product :{
-                name:'Chatting application',
-                link:'https://mailgen.js/'
-            }
+    let user = await loginSchema.findOne({username:data.username});
+    if(user){
+        res.json({
+            "error": "username already exists"
         })
-    
-        let response = {
-            body:{
-                name:'User',
-                intro:"Welcome to the Chatting application",
-                table:{
-                    data:[{
-                       OTP:`<h1>${otp}</h1>`
-                    }]
-                },
-                outro :"thanks for register"
-            }
-        }
-    
-        let mail = MailGenerator.generate(response)
-    
-        let massage = {
-            from: process.env.send_email,
-            to: data.email,
-            subject: 'Welcome to ChatApp',
-            html: mail
-        }
-    
-        transporter.sendMail(massage).then((info)=>{
-            console.log('Email sent',info.massageId,);
-        }).catch((e)=>{
-            console.error('Error sending email:', e);
-        })
-        res.json(responseData);
+        return
     }
-    else{
-        res.json(responseData);
+    user = await loginSchema.findOne({email:data.email});
+    if(user){
+        res.json({
+            "error": "email already exists"
+        })
+        return
+    }
+    otp = Math.floor(1000+Math.random()*9000);
+    await registerOtpsave.deleteOne({email:data.email});
+    const dbSave = new registerOtpsave({
+        email: data.email,
+        otp: otp
+    });
+    await dbSave.save();
+    let config = {
+        service :'gmail',
+        auth:{
+            user: process.env.send_email,
+            pass: process.env.send_email_password,
+        }
     }
 
+    let transporter = nodemailer.createTransport(config);
+
+    let MailGenerator = new Mailgen({
+        theme: 'default',
+        product :{
+            name:'Chatting application',
+            link:'https://mailgen.js/'
+        }
+    })
+
+    let response = {
+        body:{
+            name:'User',
+            intro:"Welcome to the Chatting application",
+            table:{
+                data:[{
+                    OTP:`<h1>${otp}</h1>`
+                }]
+            },
+            outro :"thanks for register"
+        }
+    }
+
+    let mail = MailGenerator.generate(response)
+
+    let massage = {
+        from: process.env.send_email,
+        to: data.email,
+        subject: 'Welcome to ChatApp',
+        html: mail
+    }
+
+    
+    transporter.sendMail(massage).then(()=>{
+        res.json({success:"success"})
+    }).catch((e)=>{
+        res.json({
+            "error": "Failed to send email"
+        })
+        console.log('error in otpVerification function',e)
+    })
 }
+
 
 const logout = async(req,res)=>{
     try {
         res.cookie("jwt","",{maxAge:0})
-        res.status(200).json({massage:"logged out successfully"});
+        res.status(200).json({"massage":"logged out successfully"});
     } catch (e) {
         console.log("error in logout controller",e)
         res.status(500).json("internal server error")
@@ -181,96 +190,115 @@ const logout = async(req,res)=>{
 
 const forPassOtpGen = async (req , res)=>{
     const reqData = req.body;
-    let responseData = {
-        email:false,
-        otp:false
-    }
     const data = await loginSchema.findOne({email:reqData.email})
-    if(data){
-        responseData.email = true;
-        responseData.otp = true;
-        await forgotPassOtps.deleteOne({email:data.email});
-        let otp = Math.floor(1000+Math.random()*9000);
-        const dbSave = new forgotPassOtps({
-            email: data.email,
-            otp: otp
-        });
-        await dbSave.save();
-        let config = {
-            service :'gmail',
-            auth:{
-                user: process.env.send_email,
-                pass: process.env.send_email_password,
-            }
-        }
-    
-        let transporter = nodemailer.createTransport(config);
-    
-        let MailGenerator = new Mailgen({
-            theme: 'default',
-            product :{
-                name:'Chatting application',
-                link:'https://mailgen.js/'
-            }
+    if(!data){
+        res.json({
+            "error":"email not found"
         })
-    
-        let response = {
-            body:{
-                name:`${data.username}`,
-                intro:"your Otp for Changging Password",
-                table:{
-                    data:[{
-                       OTP:`<h1>${otp}</h1>`
-                    }]
-                },
-            }
-        }
-    
-        let mail = MailGenerator.generate(response)
-    
-        let massage = {
-            from: process.env.send_email,
-            to: reqData.email,
-            subject: 'Welcome to ChatApp',
-            html: mail
-        }
-    
-        transporter.sendMail(massage).then((info)=>{
-            console.log('Email sent',info.massageId,);
-        }).catch((e)=>{
-            console.error('Error sending email:', e);
-        })
+        return
     }
-    res.json(responseData);
+    await forgotPassOtps.deleteOne({email:data.email});
+    let otp = Math.floor(1000+Math.random()*9000);
+    const dbSave = new forgotPassOtps({
+        email: data.email,
+        otp: otp
+    });
+    await dbSave.save();
+    let config = {
+        service :'gmail',
+        auth:{
+            user: process.env.send_email,
+            pass: process.env.send_email_password,
+        }
+    }
+
+    let transporter = nodemailer.createTransport(config);
+
+    let MailGenerator = new Mailgen({
+        theme: 'default',
+        product :{
+            name:'Chatting application',
+            link:'https://mailgen.js/'
+        }
+    })
+
+    let response = {
+        body:{
+            name:`${data.username}`,
+            intro:"your Otp for Changging Password",
+            table:{
+                data:[{
+                    OTP:`<h1>${otp}</h1>`
+                }]
+            },
+        }
+    }
+
+    let mail = MailGenerator.generate(response)
+
+    let massage = {
+        from: process.env.send_email,
+        to: reqData.email,
+        subject: 'Welcome to ChatApp',
+        html: mail
+    }
+
+    try{
+        transporter.sendMail(massage)
+    }
+    catch(e){
+        response.json({
+            "error": "Failed to send email"
+        })
+        console.log('error in forPassOtpGen function',e)
+    }
 }
 
 const changePassword = async (req, res) => {
     try {
         const  reqData = req.body;
-        let responseData = {
-            email:false,
-            password:false,
-            otp:false
-        }
         const data = await loginSchema.findOne({email:reqData.email})
-        if(data){
-            responseData.email = true;
-            const ispasswordCorrect = await bcrypt.compare(data.password, reqData.password || "");
-            const otp = await forgotPassOtps.findOne({email:reqData.email})
-            if(otp && reqData.otp == otp.otp){
-                if(!ispasswordCorrect){
-                    responseData.password = true;
-                    const salt = await bcrypt.genSalt(10);
-                    const hashedPassword = await bcrypt.hash(reqData.password, salt);
-                    const data1 = await loginSchema.findOneAndUpdate({email:reqData.email},{password:hashedPassword});
-                    if(data1){
-                        responseData.otp = true;
-                        await forgotPassOtps.deleteOne({email:reqData.email});
-                    } 
+        if(!data){
+            res.json({
+                "error":"email not found"
+            })
+            return
+        }
+        const ispasswordCorrect = await bcrypt.compare(data.password, reqData.password || "");
+        const otp = await forgotPassOtps.findOne({email:reqData.email})
+        if(!otp){
+            res.json({
+                "error":"otp is not generated"
+            })
+            return
+        }
+        if(reqData.otp == otp.otp){
+            if(!ispasswordCorrect){
+                const salt = await bcrypt.genSalt(10);
+                const hashedPassword = await bcrypt.hash(reqData.password, salt);
+                const data1 = await loginSchema.findOneAndUpdate({email:reqData.email},{password:hashedPassword});
+                if(data1){
+                    await forgotPassOtps.deleteOne({email:reqData.email});
+                } else{
+                    res.json({
+                        "error":"failed to update password"
+                    })
+                    return
                 }
             }
+            else{
+                res.json({
+                    "error": "new password is not like old password please change"
+                })
+                return
+            }
+        } 
+        else{
+            res.json({
+                "error": "OTP is incorrect"
+            })
+            return
         }
-        res.json(responseData);   
     } catch (e) {
         console.log("error in changePassword controller",e)
         res.status(500).json("internal server error")

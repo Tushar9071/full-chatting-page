@@ -6,13 +6,15 @@
     padding:15px;
   }
   
+  .header-container {
+    position: relative;
+  }
   .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 30px;
     height: 10%;
-    border-bottom: 3px solid rgba(255, 255, 255, 0.3);
   }
   
   
@@ -206,4 +208,142 @@
     border-color: #ddd;
 
   }
-  
+
+/* Dropdown Menu Styling */
+.dropdown-menu {
+  position: absolute;
+  top: 70px;
+  right:  1px;
+  width: auto;
+  max-height: 350px;
+  padding: 20px;
+  color: white;
+  z-index: 10;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Glass Effect for Dropdown */
+.glass-effect {
+  -webkit-backdrop-filter: blur(12px) saturate(200%);
+  backdrop-filter: blur(9px) saturate(200%);
+  background-color: rgba(17, 25, 40, 0.75);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.125);
+}
+
+
+.show-dropdown .dropdown-menu {
+  display: block;
+}
+
+/* Dropdown Search Bar Styling */
+.dropdown-search-bar {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px; /* Adjusted margin-bottom */
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  color: white;
+  background-color: rgba(255, 255, 255, 0.1);
+  font-size: 0.9rem;
+}
+
+/* Friends List Container with Scroll */
+.friends-list {
+  max-height: 250px; 
+  overflow-y: auto;
+  margin: 0; 
+  padding: 0;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.friends-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.friends-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.friends-list::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+/* Friend Item Styling */
+.friend-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px; /* Increased padding for more space between items */
+  cursor: pointer;
+  color: white;
+  transition: background-color 0.2s ease;
+}
+
+.friend-item:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+}
+
+/* Friend Icon and Image Styling */
+.friend-icon-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-right: 15px; /* Adjust spacing between icon and name */
+}
+
+.friend-icon {
+  width: 50px; /* Increased icon size */
+  height: 50px; 
+  object-fit: cover; 
+  border-radius: 50%;
+}
+
+.friend-online-dot {
+  position: absolute;
+  top: 5px; /* Adjusted to fit well on larger icon */
+  right: 5px;
+  width: 10px;
+  height: 10px;
+  background-color: green;
+  border-radius: 50%;
+}
+
+/* Friend Name and Message Styling */
+.friend-info {
+  display: flex;
+  flex-direction: column;
+  text-align: center; /* Center alignment */
+}
+
+.friend-name {
+  font-size: 0.85rem; /* Slightly larger font size for emphasis */
+  margin: 0;
+}
+
+.friend-message {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.7);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 130px;
+}
+
+/* Add Friend Icon Styling */
+.add-friend-icon {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.2rem; /* Slightly larger icon */
+  margin-left: 15px; /* Added spacing to separate from text */
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.add-friend-icon:hover {
+  color: rgba(255, 255, 255, 1);
+}

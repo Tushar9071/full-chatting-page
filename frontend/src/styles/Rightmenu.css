@@ -54,7 +54,6 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 15px;
   max-height: 80vh;
   scroll-behavior: smooth;
 }
@@ -64,6 +63,31 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+
+.message-section::-webkit-scrollbar {
+  width: 8px;
+}
+
+.message-section::-webkit-scrollbar-thumb {
+  background-color: rgba(114, 137, 218, 0.8); /* Thumb color */
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: padding-box; /* Creates a subtle border around thumb */
+}
+
+.message-section::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(91, 110, 174, 0.9); /* Darker thumb on hover */
+}
+
+.message-section::-webkit-scrollbar-track {
+  background: transparent; /* Invisible scroll track */
+}
+
+/* Custom scroll bar for Firefox */
+.message-section {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(114, 137, 218, 0.8) transparent;
 }
 .message {
   padding: 12px 18px;
@@ -75,8 +99,13 @@
   word-wrap: break-word;
   overflow-wrap: break-word;
   margin-bottom: 10px;
+  max-height: 2.5rem; /* Limit the height to show partial overflow */
+  overflow: hidden; /* Hide overflow for scrolling effect */
+  position: relative;
 }
-
+.message:hover {
+  overflow-y: auto;
+}
 
 .message.other {
   align-self: flex-start;
@@ -159,5 +188,34 @@
 }
 
 
+/* No Selection Container - Centered */
+.no-selection-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%; /* Ensures it takes the full height of the right panel */
+}
 
+/* No Selection Message Styling */
+.no-selection {
+  text-align: center;
+  color: #e0e0e0; /* Light gray text color */
+}
 
+.no-selection .icon {
+  font-size: 4rem;
+  color: #666; /* Slightly dimmed color for the icon */
+  margin-bottom: 15px; /* Space between icon and main text */
+}
+
+.no-selection .main-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.no-selection .sub-text {
+  font-size: 1rem;
+  color: #b0b0b0; /* Dimmed color for subtext */
+  margin-top: 5px;
+}
