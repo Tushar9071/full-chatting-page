@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useAuthContext } from '../context/AuthContext';
 import toast from 'react-hot-toast'
+import Cookies from 'js-cookie';
 function useLogin() {
   const [loading,setLoading] = useState(false);
   const {setAuthUser} = useAuthContext()
@@ -11,12 +12,13 @@ function useLogin() {
 
     setLoading(true);
     try {
-        const res = await fetch('http://localhost:8000/authentication/login',{
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/authentication/login`,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({username,password})
+            body: JSON.stringify({username,password}),
+            credentials: 'include'
         })
         const data = await res.json();
         if(data.error){
@@ -24,6 +26,7 @@ function useLogin() {
         }
         localStorage.setItem('user-info',JSON.stringify(data));
         setAuthUser(data); 
+        Cookies.set('myCookie', 'myValue', { expires: 15 });
     } catch (error) {
        toast.error(error.message)
     }finally{

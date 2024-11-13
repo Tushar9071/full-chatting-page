@@ -22,13 +22,13 @@ const massageRoutes = require('./routes/massageRoutes')
 const friendList = require('./routes/friendListRoutes')
 
 //middleware
-const app = express();
+const {app,server} = require('./socket.io/socket')
 app.use(cors({
-    origin: process.env.frontend_path, // replace with your frontend url
-    credentials: true, // enable cookies
-    methods: 'GET, POST, PUT, DELETE', // allow these methods
-    allowedHeaders: ['Content-Type', 'Authorization'] // allow these headers to be sent in the request
-}));
+    origin: "http://localhost:3000",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    // credentials: 'include',
+    credentials: true,
+  }));
 app.use(express.json());
 app.use(cookieParser());
     
@@ -39,7 +39,7 @@ app.use('/api',massageRoutes);
 app.use('/friendList',friendList);
     
 //server configuration
-app.listen(port,()=>{
+server.listen(port,()=>{
     connectToMongodb();
     console.log(`Server is running on port ${port}`);
 })

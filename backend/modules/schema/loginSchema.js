@@ -23,6 +23,10 @@ const loginSchema = mongoose.Schema({
     profilepic:{
         type: String,
         default: "",
+    },
+    online:{
+        type: Boolean,
+        default: false,
     }
 })
 

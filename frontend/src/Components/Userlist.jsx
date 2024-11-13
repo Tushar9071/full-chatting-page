@@ -10,8 +10,8 @@ function UsersList({ searchTerm, users, setSelectedFriend }) {
     setSelectedFriend(user); // Pass clicked user to the parent component
   };
 
-  const filteredUsers = users.filter((user) =>
-    user.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredUsers = users.filter(async (user) =>
+    await user.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (

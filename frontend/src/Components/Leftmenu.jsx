@@ -1,35 +1,45 @@
-// LeftMenu.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import LeftHeader from './LeftHeader';
 import SearchBar from './Serchbar';
 import UsersList from './Userlist';
 import '../styles/Leftmenu.css';
-import icon1 from '../Images/user.jpg'
+import useFriendList from '../hooks/useFriendList';
+import { useSocketContext } from '../context/SocketContext';
 
 function LeftMenu({ setSelectedFriend }) {
-  const [searchTerm, setSearchTerm] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
+    const { friends } = useFriendList();
+    const { onlineUser } = useSocketContext(); // Ensure onlineUser is an array
 
-  const predefinedUsers = [
-    { id: 1, name: 'Yugal Patel', online: true, icon: icon1, message: 'Hello there!' },
-    { id: 2, name: 'Tushar', online: false, icon: '/path/to/icon.jpg', message: 'Available for a call?' },
-    // Add more users as needed
-  ];
+    const [userList, setUserList] = useState([]);
 
-  const [userList, setUserList] = useState(predefinedUsers);
+    useEffect(() => {
+        console.log(onlineUser)
+        const onlineUserSet = new Set(onlineUser.map(user => user.id));
+        const mappedFriends = friends.map((friend) => ({
+            id: friend._id,
+            name: friend.username,
+            online: onlineUserSet.has(friend._id), // Efficient lookup
+            icon: friend.profilepic,
+            message: 'Hello there!',
+        }));
+        console.log(mappedFriends);
+        setUserList(mappedFriends);
+    }, [friends, onlineUser]);
 
-  const addFriendToUserList = (friend) => {
-    if (!userList.some(user => user.id === friend.id)) {
-      setUserList((prevList) => [...prevList, friend]);
-    }
-  };
+    const addFriendToUserList = (friend) => {
+        if (!userList.some(user => user.id === friend.id)) {
+            setUserList((prevList) => [...prevList, friend]);
+        }
+    };
 
-  return (
-    <div className="sidebar">
-      <LeftHeader addFriendToUserList={addFriendToUserList} userList={userList} />
-      <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-      <UsersList searchTerm={searchTerm} users={userList} setSelectedFriend={setSelectedFriend} />
-    </div>
-  );
+    return (
+        <div className="sidebar">
+            <LeftHeader addFriendToUserList={addFriendToUserList} userList={userList} />
+            <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+            <UsersList searchTerm={searchTerm} users={userList} setSelectedFriend={setSelectedFriend} />
+        </div>
+    );
 }
 
 export default LeftMenu;

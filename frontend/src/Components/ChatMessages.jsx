@@ -2,14 +2,23 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import '../styles/Rightmenu.css';
 import InputSection from './InputSection';
+import useGetMsg from '../hooks/useGetMsg';
+import { useSocketContext } from '../context/SocketContext';
 
-const MessageSection = () => {
-  const [messages, setMessages] = useState([
-    { text: 'Hello', sender: 'other' },
-    { text: 'How are you?', sender: 'other' },
-    { text: "I'm good, thanks!", sender: 'user' },
-  ]);
-
+const MessageSection =(friend) => {
+  // console.log(friend.friend.id)
+  const {getMsg}=useGetMsg()
+  const [messages, setMessages] = useState([]);
+  const {massage} = useSocketContext()
+  useEffect(()=>{
+    getMsg(friend.friend.id).then((msg)=>{
+      setMessages(msg)
+    })
+  },[!messages])
+  useEffect(()=>{
+    setMessages((prevMessages)=>[...prevMessages,{text:massage ,sender:'other'}]);
+  },[massage])
+  console.log(messages)
   const messageEndRef = useRef(null);
 
   const handleSendMessage = (newMessage) => {
@@ -35,7 +44,7 @@ const MessageSection = () => {
           <div ref={messageEndRef} /> {/* Scroll-to-bottom element */}
         </Col>
       </Row>
-      <InputSection onSendMessage={handleSendMessage} />
+      <InputSection onSendMessage={handleSendMessage} receiverId={{id:friend.friend.id}}/>
     </>
   );
 };

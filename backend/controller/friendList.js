@@ -13,7 +13,8 @@ const friendList = async(req,res)=>{
         let sendData = friends.friendList.map((friend)=>{
             return {
                 _id:friend._id,
-                username:friend.username
+                username:friend.username,
+                profilepic:friend.profilepic
             }
         })
 
@@ -27,12 +28,13 @@ const friendList = async(req,res)=>{
 const searchFriend = async(req, res)=>{
     try {   
         const username = req.body.username
+        const loggedInUser = req.user._id
 
-        const users = await loginSchema.find({username:{$regex:username, $options:"i"}}).select('_id username')
+        const users = await loginSchema.find({username:{$regex:username, $options:"i"}}).select('_id username profilepic')
         if(users.length == 0){
             return res.status(404).json({username:"username not found"});
         }
-
+        users.filter((friend)=>friend._id !== loggedInUser)
         res.json(users);
 
     } catch (e) {
@@ -46,7 +48,6 @@ const addFriends = async(req, res)=>{
     try {
         const loggedInUser = req.user._id;
         const friendId = req.body._id
-        console.log(loggedInUser,friendId);
         let friend = await friendListSchema.findOne({Username:loggedInUser});
         if(!friend){
             const newList = await friendListSchema({

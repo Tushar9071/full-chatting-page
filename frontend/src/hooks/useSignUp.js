@@ -10,12 +10,13 @@ function useSignUp() {
     if(!success) return
     setLoading(true);
     try {
-        const res = await fetch('http://localhost:8000/authentication/signup',{
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/authentication/signup`,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({username,email,otp,gender,password})
+            body: JSON.stringify({username,email,otp,gender,password}),
+            credentials: 'include'
         })
         const data = await res.json();
         if(data.error){

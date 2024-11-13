@@ -3,13 +3,16 @@ import { Row, Col, Form, Button } from 'react-bootstrap';
 import { FaTree } from 'react-icons/fa';
 import { AiOutlineSend } from 'react-icons/ai';
 import '../styles/Rightmenu.css';
+import useSendMsg from '../hooks/useSendMsg';
 
-const InputSection = ({ onSendMessage }) => {
+const InputSection = ({ onSendMessage ,receiverId}) => {
+    const {sendMsg}=useSendMsg()
     const [message, setMessage] = useState("");
-
+    
     const handleSendMessage = (e) => {
         e.preventDefault();
         if (message.trim()) {
+            sendMsg(receiverId.id, message);
             onSendMessage(message);
             setMessage("");
         }

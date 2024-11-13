@@ -6,6 +6,7 @@ import '../styles/Rightmenu.css';
 import { FaWhatsapp } from 'react-icons/fa'; // Example icon import
 
 const RightPanel = ({ selectedFriend }) => {
+  
   return (
     <Container fluid className="right-panel">
       {selectedFriend ? (

@@ -8,8 +8,8 @@ import Loading from "../utils/Loading";
 import useSignUp from "../hooks/useSignUp";
 
 export default function Signup() {
-  const{loading,otpSend}=useOtpSend()
-  const{loading1,signup} = useSignUp()
+  const{otpLoading,otpSend}=useOtpSend()
+  const{signupLoadin,signup} = useSignUp()
   const [inputType, setInputType] = useState("password");
   const [otp, setOtp] = useState(Array(4).fill("")); // Manage OTP input
   const [showOtp, setShowOtp] = useState(false); // Control OTP visibility
@@ -30,7 +30,6 @@ export default function Signup() {
     input.otp = otp.join(''); // Combine OTP input to form final OTP
     // Add your logic to validate and send data to the server
     signup(input)
-    
   }
 
   const toggleInputType = () => {
@@ -52,8 +51,8 @@ export default function Signup() {
   };
 
   const handleVerifyClick = () => {
-    genOtp();
     setShowOtp(true);
+    genOtp();
   };
 
   return (
@@ -89,7 +88,7 @@ export default function Signup() {
   />
   <div className="verify-email-btn">
     {
-      loading? (
+      otpLoading? (
         <Loading/>
       ):
       <button type="button" className={'otp-btn'} onClick={handleVerifyClick}>
@@ -137,7 +136,7 @@ export default function Signup() {
             
           </div>
           <div className="auth-button">
-            {loading1?<Loading/>:<button type="submit" className="otp-btn">Signup</button>}
+            {signupLoadin?<Loading/>:<button type="submit" className="otp-btn">Signup</button>}
             </div>
         </form>
 

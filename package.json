@@ -19,6 +19,7 @@
     "mailgen": "^2.0.28",
     "mongoose": "^8.7.3",
     "nodemailer": "^6.9.15",
-    "socket.io": "^4.8.1"
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1"
   }
 }
