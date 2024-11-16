@@ -91,7 +91,7 @@ export default function Signup() {
       otpLoading? (
         <Loading/>
       ):
-      <button type="button" className={'otp-btn'} onClick={handleVerifyClick}>
+      <button type="button" className={'otp-btn'} id="verify-btn" onClick={handleVerifyClick}>
       OTP
       </button>
     }
@@ -135,8 +135,35 @@ export default function Signup() {
             </div>
             
           </div>
+
+
+          <div className="text-gender" > Select Your Gender</div>
+          <div className="gender-container">
+            <label className="gender-label male">
+              <input
+                type="radio"
+                name="gender"
+                value="male"
+                checked={input.gender === "male"}
+                onChange={(e) => setInput({ ...input, gender: e.target.value })}
+              />
+              Male
+            </label>
+            <label className="gender-label female">
+              <input
+                type="radio"
+                name="gender"
+                value="female"
+                checked={input.gender === "female"}
+                onChange={(e) => setInput({ ...input, gender: e.target.value })}
+              />
+              Female
+            </label>
+          </div>
+
+
           <div className="auth-button">
-            {signupLoadin?<Loading/>:<button type="submit" className="otp-btn">Signup</button>}
+            {signupLoadin?<Loading/>:<button type="submit" className="otp-btn" id="auth-btn">Signup</button>}
             </div>
         </form>
 

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Image } from 'react-bootstrap';
-import { FaEllipsisV, FaUserPlus } from 'react-icons/fa';
+import {FaSignOutAlt, FaUserPlus } from 'react-icons/fa';
 import '../styles/Leftmenu.css';
 import person1png from '../Images/user.jpg';
 import useSearchFriends from '../hooks/useSearchFriends';
 import useAddFriends from '../hooks/useAddFriends';
+import { Link } from 'react-router-dom';
 
 function LeftHeader({ addFriendToUserList, userList }) {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -62,7 +63,7 @@ function LeftHeader({ addFriendToUserList, userList }) {
         <h5>{userInfo.username}</h5>
         <div className="lefticons">
           <FaUserPlus className="leftheader-icon add-user-icon" title="Add User" onClick={toggleDropdown} />
-          <FaEllipsisV className="leftheader-icon" />
+          <Link to={'/login'}><FaSignOutAlt className="leftheader-icon" title="Logout" style={{cursor:'pointer'}}/></Link>
         </div>
       </div>
 

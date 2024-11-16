@@ -188,7 +188,6 @@
 }
 
 
-/* No Selection Container - Centered */
 .no-selection-container {
   display: flex;
   align-items: center;
@@ -199,23 +198,25 @@
 /* No Selection Message Styling */
 .no-selection {
   text-align: center;
-  color: #e0e0e0; /* Light gray text color */
+  color: #e0e0e0; 
 }
 
-.no-selection .icon {
-  font-size: 4rem;
-  color: #666; /* Slightly dimmed color for the icon */
-  margin-bottom: 15px; /* Space between icon and main text */
+.no-selection .icon img {
+  width: 150px; /* Increase width */
+  height: 150px; /* Increase height */
+ 
 }
 
 .no-selection .main-text {
-  font-size: 1.5rem;
+  font-size: 1.9rem; 
   font-weight: bold;
   color: #ffffff;
+ 
 }
 
 .no-selection .sub-text {
   font-size: 1rem;
-  color: #b0b0b0; /* Dimmed color for subtext */
-  margin-top: 5px;
+  color: #b0b0b0; 
+  margin-top: 10px;
+  line-height: 1.5; 
 }

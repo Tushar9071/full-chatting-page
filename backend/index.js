@@ -24,7 +24,7 @@ const friendList = require('./routes/friendListRoutes')
 //middleware
 const {app,server} = require('./socket.io/socket')
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: process.env.frontend_path,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     // credentials: 'include',
     credentials: true,

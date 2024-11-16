@@ -9,6 +9,7 @@ import { useAuthContext } from './context/AuthContext.js';
 function App() {
   const {authUser} = useAuthContext()
   return (
+    
     <>
       <Routes>
         <Route path="/" element={authUser?<ChatApp />:<Navigate to={'/login'}></Navigate>} />

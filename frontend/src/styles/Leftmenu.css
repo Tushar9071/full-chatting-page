@@ -8,7 +8,22 @@
   
   .header-container {
     position: relative;
-  }
+    padding-bottom: 2px; /* Adds space below the header content */
+    margin-bottom: 12px; /* Space between the header and the next section */
+}
+
+.header-container::after {
+    content: '';
+    position: absolute;
+    bottom: 10px;
+    left: -15px; 
+    width: 110%; 
+    height: 4px; /* Thickness of the line */
+    /* margin-left: -15px;  */
+    background-color: rgba(255, 255, 255, 0.2); 
+}
+
+
   .header {
     display: flex;
     align-items: center;
@@ -241,7 +256,7 @@
 .dropdown-search-bar {
   width: 100%;
   padding: 10px;
-  margin-bottom: 10px; /* Adjusted margin-bottom */
+  margin-bottom: 10px; 
   border-radius: 5px;
   border: none;
   outline: none;
@@ -250,7 +265,7 @@
   font-size: 0.9rem;
 }
 
-/* Friends List Container with Scroll */
+
 .friends-list {
   max-height: 250px; 
   overflow-y: auto;
@@ -278,7 +293,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 20px; /* Increased padding for more space between items */
+  padding: 10px 20px;
   cursor: pointer;
   color: white;
   transition: background-color 0.2s ease;
@@ -338,8 +353,8 @@
 /* Add Friend Icon Styling */
 .add-friend-icon {
   color: rgba(255, 255, 255, 0.7);
-  font-size: 1.2rem; /* Slightly larger icon */
-  margin-left: 15px; /* Added spacing to separate from text */
+  font-size: 1.2rem; 
+  margin-left: 15px;
   cursor: pointer;
   transition: color 0.2s ease;
 }
