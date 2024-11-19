@@ -2,6 +2,8 @@
 const express = require('express');
 //for cors
 const cors = require('cors');
+//for path
+const path = require('path');
 //for mongoose
 const mongoose = require('mongoose');
 //for use .env file
@@ -31,12 +33,15 @@ app.use(cors({
   }));
 app.use(express.json());
 app.use(cookieParser());
-    
+app.use(express.static(path.join(__dirname,'../frontend/build')));
 // routes for authentication
 
-app.use('/authentication',authenticate)
+app.use('/authentication',authenticate);
 app.use('/api',massageRoutes);
 app.use('/friendList',friendList);
+app.get('*',(req,res)=>{
+  res.sendFile(path.join(__dirname,'../frontend/build/index.html'))
+})
     
 //server configuration
 server.listen(port,()=>{

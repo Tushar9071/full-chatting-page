@@ -7,7 +7,7 @@ function useOtpSend() {
     if(!success) return
     setLoading(true);
     try {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/authentication/otp`,{
+        const res = await fetch(`/authentication/otp`,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

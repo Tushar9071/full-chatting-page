@@ -14,7 +14,7 @@ function LeftMenu({ setSelectedFriend }) {
     const [userList, setUserList] = useState([]);
 
     useEffect(() => {
-        console.log(onlineUser)
+        
         const onlineUserSet = new Set(onlineUser.map(user => user.id));
         const mappedFriends = friends.map((friend) => ({
             id: friend._id,
@@ -23,7 +23,7 @@ function LeftMenu({ setSelectedFriend }) {
             icon: friend.profilepic,
             message: 'Hello there!',
         }));
-        console.log(mappedFriends);
+        
         setUserList(mappedFriends);
     }, [friends, onlineUser]);
 

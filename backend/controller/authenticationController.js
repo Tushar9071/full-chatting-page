@@ -245,6 +245,7 @@ const forPassOtpGen = async (req , res)=>{
 
     try{
         transporter.sendMail(massage)
+        res.json({message:'otp sent successfully'})
     }
     catch(e){
         response.json({
@@ -257,6 +258,7 @@ const forPassOtpGen = async (req , res)=>{
 const changePassword = async (req, res) => {
     try {
         const  reqData = req.body;
+        console.log(reqData)
         const data = await loginSchema.findOne({email:reqData.email})
         if(!data){
             res.json({
@@ -279,6 +281,9 @@ const changePassword = async (req, res) => {
                 const data1 = await loginSchema.findOneAndUpdate({email:reqData.email},{password:hashedPassword});
                 if(data1){
                     await forgotPassOtps.deleteOne({email:reqData.email});
+                    res.json({
+                        message:"password updated successfully"
+                    })
                 } else{
                     res.json({
                         "error":"failed to update password"

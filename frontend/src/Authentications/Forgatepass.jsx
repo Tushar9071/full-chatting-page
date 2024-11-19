@@ -1,13 +1,22 @@
 import React, { useState } from 'react';  
 import { useForm } from 'react-hook-form';
 import '../styles/authentication.css';
+import useForgotPassword from '../hooks/useForgotPassword';
+import toast from 'react-hot-toast';
 
 export default function ForgotPassword() {
+  const {sendOtp,resetPassword}= useForgotPassword();
   const { register, handleSubmit, formState: { errors }, watch, clearErrors } = useForm();
   const [showPassword, setShowPassword] = useState(false);
   const [showOtp, setShowOtp] = useState(false);
   const [otp, setOtp] = useState(Array(4).fill('')); 
   const [submitted, setSubmitted] = useState(false);
+  const [input, setInput] = useState({
+    email:'',
+    otp:'',
+    newPassword:'',
+    confirmPassword:''
+  });
 
   const handleOtpInput = (index, event) => {
     const { value } = event.target;
@@ -26,11 +35,30 @@ export default function ForgotPassword() {
 
   const handleVerifyOtp = () => {
     setShowOtp(true);
+    toast.promise(
+      sendOtp({email:input.email}),
+       {
+         loading: 'OTP sending ...',
+         success: <b>Otp sent successfully</b>,
+         error: <b>Samthing Missing</b>,
+       }
+     );
+    
   };
 
   const onSubmit = (data) => {
-    console.log("Form data submitted:", data);
     setSubmitted(true);
+    input.otp = otp.join(''); // Combine OTP input to form final OTP
+    toast.promise(
+      
+      resetPassword({email:input.email,password:input.password,otp:input.otp,confirmPassword:input.confirmPassword}),
+       {
+         loading: 'Please wait...',
+         
+       }
+     );
+    
+    
     // Here, you can add the logic to submit the form after OTP is verified
   };
 
@@ -55,12 +83,13 @@ export default function ForgotPassword() {
                 }
             })}
             placeholder="Enter Email"
+            onChange={(e)=>{setInput({...input,email: e.target.value})}}
         />
         <button type="button" className="verify-email-btn"  id="verify-btn" onClick={handleVerifyOtp}>
              OTP
         </button>
     </div>
-    {errors.email && <p className="error-message">{errors.email.message}</p>}
+    
     
     {showOtp && (
         <div className="otp-input-group">
@@ -85,12 +114,9 @@ export default function ForgotPassword() {
             type={showPassword ? 'text' : 'password'}
             {...register("password", {
                 required: "Password is required",
-                minLength: {
-                    value: 8,
-                    message: "Password must be at least 8 characters"
-                }
             })}
             placeholder="New Password"
+            onChange={(e) => setInput({...input, password: e.target.value})}
         />
         <button type="button" className="show-password-btn" onClick={() => setShowPassword(!showPassword)}
           style={{color: '#007BFF'}}
@@ -98,7 +124,7 @@ export default function ForgotPassword() {
             {showPassword ? 'Hide' : 'Show'}
         </button>
     </div>
-    {errors.password && <p className="error-message">{errors.password.message}</p>}
+    
 
     <div className="auth-text"style={{ marginTop: '20px' }}>Confirm Password</div>
           <div className="input-container"  style={{ marginTop: '10px' }}>
@@ -112,9 +138,9 @@ export default function ForgotPassword() {
               })}
               placeholder="Confirm Password"
               onFocus={() => clearErrors("confirmPassword")}
+              onChange={(e)=>{setInput({...input,confirmPassword: e.target.value})}}
             />
           </div>
-          {submitted && errors.confirmPassword && <p className="error-message">{errors.confirmPassword.message}</p>}
 
 
     <button type="submit" className="auth-button" id='auth-btn'>Reset Password</button>

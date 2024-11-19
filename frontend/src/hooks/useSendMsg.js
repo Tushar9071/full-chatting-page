@@ -6,7 +6,7 @@ function useSendMsg() {
   const sendMsg = async(receiverId,msg)=>{
     setLoading(true);
     try {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/api/sendMsg/${receiverId}`,{
+        const res = await fetch(`/api/sendMsg/${receiverId}`,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

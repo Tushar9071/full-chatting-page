@@ -7,7 +7,7 @@ function useAddFriends() {
     const addFriends = async (friend) => {
         setLoading(true);
         try {
-            const res = await fetch(`${process.env.REACT_APP_API_URL}/friendList/addfriend`, {
+            const res = await fetch(`/friendList/addfriend`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

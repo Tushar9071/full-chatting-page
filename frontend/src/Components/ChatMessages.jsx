@@ -6,7 +6,6 @@ import useGetMsg from '../hooks/useGetMsg';
 import { useSocketContext } from '../context/SocketContext';
 
 const MessageSection =(friend) => {
-  // console.log(friend.friend.id)
   const {getMsg}=useGetMsg()
   const [messages, setMessages] = useState([]);
   const {massage} = useSocketContext()
@@ -18,7 +17,6 @@ const MessageSection =(friend) => {
   useEffect(()=>{
     setMessages((prevMessages)=>[...prevMessages,{text:massage ,sender:'other'}]);
   },[massage])
-  console.log(messages)
   const messageEndRef = useRef(null);
 
   const handleSendMessage = (newMessage) => {

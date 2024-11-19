@@ -6,13 +6,13 @@ function useLogin() {
   const [loading,setLoading] = useState(false);
   const {setAuthUser} = useAuthContext()
   const login = async({username,password})=>{
-    console.log(username,password);
+    
     const success = handleInputError({username,password})
     if(!success) return
 
     setLoading(true);
     try {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/authentication/login`,{
+        const res = await fetch(`/authentication/login`,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

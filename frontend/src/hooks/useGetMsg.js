@@ -7,7 +7,7 @@ function useGetMsg() {
   const getMsg= async (receiverId) => {
     setLoading(true);
     try {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/api/${receiverId}`,{
+        const res = await fetch(`/api/${receiverId}`,{
             method: 'GET',
             credentials: 'include'
         })

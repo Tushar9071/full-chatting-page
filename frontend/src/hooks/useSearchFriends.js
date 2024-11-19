@@ -13,7 +13,7 @@ function useSearchFriends() {
         setLoading(false);
         return;
       }
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/friendList/search/friend`, {
+      const res = await fetch(`/friendList/search/friend`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

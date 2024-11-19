@@ -5,7 +5,7 @@ import '../styles/Leftmenu.css';
 import person1png from '../Images/user.jpg';
 import useSearchFriends from '../hooks/useSearchFriends';
 import useAddFriends from '../hooks/useAddFriends';
-import { Link } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 function LeftHeader({ addFriendToUserList, userList }) {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -56,6 +56,12 @@ function LeftHeader({ addFriendToUserList, userList }) {
     addFriendToUserList(friend);
   };
 
+  const handlelogout = ()=>{
+    localStorage.removeItem('user-info');
+    Cookies.remove('jwt');
+    window.location.href = '/login';
+  }
+
   return (
     <div className={`header-container ${showDropdown ? 'show-dropdown' : ''}`}>
       <div className="header">
@@ -63,7 +69,7 @@ function LeftHeader({ addFriendToUserList, userList }) {
         <h5>{userInfo.username}</h5>
         <div className="lefticons">
           <FaUserPlus className="leftheader-icon add-user-icon" title="Add User" onClick={toggleDropdown} />
-          <Link to={'/login'}><FaSignOutAlt className="leftheader-icon" title="Logout" style={{cursor:'pointer'}}/></Link>
+          <FaSignOutAlt className="leftheader-icon" title="Logout" style={{cursor:'pointer'}} onClick={handlelogout}/>
         </div>
       </div>
 

@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import useOtpSend from "../hooks/useOtpSend";
 import Loading from "../utils/Loading";
 import useSignUp from "../hooks/useSignUp";
+import toast from "react-hot-toast";
 
 export default function Signup() {
   const{otpLoading,otpSend}=useOtpSend()
@@ -18,18 +19,34 @@ export default function Signup() {
     email: "",
     password: "",
     otp: "",
-    gender:"male"
+    gender:""
   })
 
   const genOtp = async ()=>{
-    otpSend({username:input.username, email:input.email})
+    toast.promise(
+      otpSend({username:input.username, email:input.email}),
+       {
+         loading: 'otp Sending...',
+         success: <b>Otp Sent Successfully</b>,
+         error: <b>Samthing missing</b>,
+       }
+     );
+    
   }
 
   const handleSubmit = async (e)=>{
     e.preventDefault()
     input.otp = otp.join(''); // Combine OTP input to form final OTP
     // Add your logic to validate and send data to the server
-    signup(input)
+    toast.promise(
+      signup(input),
+       {
+         loading: 'Loading...',
+         success: <b>Loading Successfully</b>,
+         error: <b>Samthing Missing</b>,
+       }
+     );
+    
   }
 
   const toggleInputType = () => {
@@ -51,7 +68,7 @@ export default function Signup() {
   };
 
   const handleVerifyClick = () => {
-    setShowOtp(true);
+    setShowOtp(true)
     genOtp();
   };
 
@@ -87,15 +104,9 @@ export default function Signup() {
     }
   />
   <div className="verify-email-btn">
-    {
-      otpLoading? (
-        <Loading/>
-      ):
       <button type="button" className={'otp-btn'} id="verify-btn" onClick={handleVerifyClick}>
       OTP
       </button>
-    }
-    
   </div>
   
   
@@ -163,7 +174,7 @@ export default function Signup() {
 
 
           <div className="auth-button">
-            {signupLoadin?<Loading/>:<button type="submit" className="otp-btn" id="auth-btn">Signup</button>}
+            <button type="submit" className="otp-btn" id="auth-btn">Signup</button>
             </div>
         </form>
 

@@ -7,6 +7,7 @@ import Loading from '../utils/Loading';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import Chexaylogo from '../Images/Chexay.io.png'
+import toast from 'react-hot-toast';
 export default function Login() {
   const [input , setInput] = useState({
     username:'',
@@ -21,11 +22,19 @@ export default function Login() {
   };
 
 
-  const {loading,login} = useLogin();
+  const {login} = useLogin();
 
   const handleSubmit = (e) =>{
     e.preventDefault();
-    login(input);
+    toast.promise(
+      login(input),
+       {
+         loading: 'Please wait...',
+         success: <b>loading Done</b>,
+         error: <b>Samthing Missing</b>,
+       }
+     );
+    
   }
 
   
@@ -75,9 +84,9 @@ export default function Login() {
           <label htmlFor="remember">Remember Me</label>
         </div>
         {/* <div className="auth-button"> */}
-          {
-            loading?(<Loading/>):<button className="otp-btn" id= "auth-btn" onClick={handleSubmit}>Login</button>
-          }
+          
+           <button className="otp-btn" id= "auth-btn" onClick={handleSubmit}>Login</button>
+          
         
         {/* </div> */}
         

@@ -9,7 +9,7 @@ function useFriendList() {
         const fetchFriends = async () => {
             setLoading(true);
             try {
-                const res = await fetch(`${process.env.REACT_APP_API_URL}/friendList`, {
+                const res = await fetch(`/friendList`, {
                     method: 'GET',
                     credentials: 'include'
                 });
