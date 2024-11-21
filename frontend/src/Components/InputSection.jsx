@@ -21,12 +21,12 @@ const InputSection = ({ onSendMessage ,receiverId}) => {
     return (
         <Row className="input-section">
             <Col>
-                <Form className="input-form" onSubmit={handleSendMessage}>
+                <Form className="input-form"  onSubmit={handleSendMessage}>
                     <FaTree className="tree-icon" />
                     <Form.Control 
                         type="text" 
                         placeholder="Type a message..." 
-                        className="message-input"
+                        className="message-input" id='msg-input'
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                     />

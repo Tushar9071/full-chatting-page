@@ -36,7 +36,7 @@
   .left-menu {
     min-height: 100%;
     max-width: 350px;
-    width: 30%;
+    width: 40%;
     border-right: 5px solid rgba(255, 255, 255, 0.15);
     overflow: hidden;
   }
@@ -45,5 +45,6 @@
   .chat-detail {
     min-height: 100%;
     width: 100%;
+
   }
   

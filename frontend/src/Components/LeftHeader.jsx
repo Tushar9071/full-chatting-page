@@ -74,7 +74,7 @@ function LeftHeader({ addFriendToUserList, userList }) {
       </div>
 
       {showDropdown && (
-        <div className="dropdown-menu glass-effect" onMouseLeave={closeDropdown}>
+        <div className="dropdown-menu" id="glass-effect" onMouseLeave={closeDropdown}>
           <input
             type="text"
             className="dropdown-search-bar"

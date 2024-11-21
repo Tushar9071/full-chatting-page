@@ -95,7 +95,7 @@ export default function Signup() {
           <div className="auth-text">Email</div>
 <div className="input-container with-verify">
   <input
-    className="auth-input email-input"
+    className=" email-input"
     type="email"
     placeholder="Enter your email"
     value={input.email}

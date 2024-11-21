@@ -19,8 +19,8 @@ function App() {
         </div>
 
         {/* Chat Detail */}
-        <div className="chat-detail ">
-        <RightPanel selectedFriend={selectedFriend} />
+        <div className="chat-detail">
+        <RightPanel  selectedFriend={selectedFriend} />
         </div>
       </div>
     </div>

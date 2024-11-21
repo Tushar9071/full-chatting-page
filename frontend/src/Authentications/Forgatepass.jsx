@@ -69,8 +69,8 @@ export default function ForgotPassword() {
       <div className="glass-container">
         <div className="auth-header">Reset Password</div>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-    <div className="auth-text">Enter Email</div>
+        <form onSubmit={handleSubmit(onSubmit)} style={{padding:'20px'}}>
+    <div className="auth-text" >Enter Email</div>
     <div className="input-container">
         <input
             className="auth-input"
@@ -108,7 +108,7 @@ export default function ForgotPassword() {
     )}
 
     <div className="auth-text">New Password</div>
-    <div style={{ position: 'relative', width: '100%' }}>
+    <div style={{ position: 'relative', width: '100%',  }}>
         <input
             className="auth-input"
             type={showPassword ? 'text' : 'password'}

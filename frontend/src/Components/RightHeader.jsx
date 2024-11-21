@@ -5,7 +5,7 @@ import '../styles/Rightmenu.css';
 
 const HeaderSection = ({ friend }) => {
   return (
-    <Row className="header-section align-items-center">
+    <Row className="header-section align-items-center" id='head-sec'>
       <Col xs="auto">
         <Image src={friend.icon} roundedCircle className="profile-pic" alt="Profile" />
       </Col>
