@@ -1,5 +1,7 @@
 # Full Chatting Page
 
+- **DEMO** : [Demo](https://chexay-chatapp.onrender.com/)
+
 A responsive and fully functional chatting application built using **React** for the frontend and **Node.js** for the backend.
 
 ## Features
