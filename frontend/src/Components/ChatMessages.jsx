@@ -5,7 +5,7 @@ import InputSection from './InputSection';
 import useGetMsg from '../hooks/useGetMsg';
 import { useSocketContext } from '../context/SocketContext';
 
-const MessageSection =(friend) => {
+const MessageSection =({friend}) => {
   const {getMsg}=useGetMsg()
   const [messages, setMessages] = useState([]);
   const {massage} = useSocketContext()
@@ -13,7 +13,7 @@ const MessageSection =(friend) => {
     getMsg(friend.friend.id).then((msg)=>{
       setMessages(msg)
     })
-  },[!messages])
+  },[!messages,friend])
   useEffect(()=>{
     setMessages((prevMessages)=>[...prevMessages,{text:massage ,sender:'other'}]);
   },[massage])
