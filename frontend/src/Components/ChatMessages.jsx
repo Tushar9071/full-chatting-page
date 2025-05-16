@@ -6,7 +6,6 @@ import useGetMsg from '../hooks/useGetMsg';
 import { useSocketContext } from '../context/SocketContext';
 
 const MessageSection =({friend}) => {
-  console.log(friend)
   const {getMsg}=useGetMsg()
   const [messages, setMessages] = useState([]);
   const {massage} = useSocketContext()
