@@ -5,12 +5,13 @@ import InputSection from './InputSection';
 import useGetMsg from '../hooks/useGetMsg';
 import { useSocketContext } from '../context/SocketContext';
 
-const MessageSection =(friend) => {
+const MessageSection =({friend}) => {
+  console.log(friend)
   const {getMsg}=useGetMsg()
   const [messages, setMessages] = useState([]);
   const {massage} = useSocketContext()
   useEffect(()=>{
-    getMsg(friend.friend.id).then((msg)=>{
+    getMsg(friend.id).then((msg)=>{
       setMessages(msg)
     })
   },[!messages,friend])
@@ -42,7 +43,7 @@ const MessageSection =(friend) => {
           <div ref={messageEndRef} /> {/* Scroll-to-bottom element */}
         </Col>
       </Row>
-      <InputSection onSendMessage={handleSendMessage} receiverId={{id:friend.friend.id}}/>
+      <InputSection onSendMessage={handleSendMessage} receiverId={{id:friend.id}}/>
     </>
   );
 };
