@@ -38,4 +38,4 @@ function UsersList({ searchTerm, users, setSelectedFriend }) {
   );
 }
 
-export default { selectedUser, UsersList };
+export default UsersList ;
