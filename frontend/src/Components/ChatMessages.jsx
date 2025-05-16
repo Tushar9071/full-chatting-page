@@ -5,7 +5,7 @@ import InputSection from './InputSection';
 import useGetMsg from '../hooks/useGetMsg';
 import { useSocketContext } from '../context/SocketContext';
 
-const MessageSection =({friend}) => {
+const MessageSection =(friend) => {
   const {getMsg}=useGetMsg()
   const [messages, setMessages] = useState([]);
   const {massage} = useSocketContext()
